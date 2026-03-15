@@ -1,12 +1,14 @@
 'use client';
 
 import { forwardRef } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { usePokemon } from '@/hooks/use-pokemon';
 import { useSelectedPokemon } from '@/hooks/use-selected-pokemon';
 import { formatPokemonName } from '@/lib/utils/format-pokemon-name';
+import { getTypeColor, getTypeTint } from '@/lib/constants/type-colors';
 import { PokemonImage } from './pokemon-image';
 import { StatList } from './stat-list';
+import { TypeBackground } from '@/components/ui/type-background';
+import { ScrollFade } from '@/components/ui/scroll-fade';
 import styles from './pokemon-card.module.scss';
 
 export const PokemonCard = forwardRef<HTMLElement>(
@@ -14,11 +16,18 @@ export const PokemonCard = forwardRef<HTMLElement>(
     const { name } = useSelectedPokemon();
     const { data: pokemon, isLoading, isError, error } = usePokemon(name);
 
-    // always render the section so the scroll ref exists in the DOM
-    // even before data loads — otherwise scrollTo fires into the void
+    const primaryType = pokemon?.types[0]?.type.name ?? 'normal';
+    const typeColor = getTypeColor(primaryType);
+
     return (
-      <section ref={ref} className={`${styles.section} ${!name ? styles.empty : ''}`}>
-        {!name && null}
+      <section
+        ref={ref}
+        className={`${styles.section} ${!name ? styles.empty : ''}`}
+        style={pokemon ? { '--accent-color': typeColor } as React.CSSProperties : undefined}
+      >
+        {pokemon && (
+          <TypeBackground color={getTypeTint(primaryType, 0.85)} />
+        )}
 
         {name && isLoading && (
           <div className={styles.loading}>
@@ -36,27 +45,25 @@ export const PokemonCard = forwardRef<HTMLElement>(
           </div>
         )}
 
-        <AnimatePresence mode="wait">
-          {pokemon && (
-            <motion.div
-              key={pokemon.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4 }}
-            >
+        {pokemon && (
+          <>
+            <ScrollFade>
               <h2 className={styles.heading}>{formatPokemonName(pokemon.name)}</h2>
-              <div className={styles.card}>
+            </ScrollFade>
+            <div className={styles.card}>
+              <ScrollFade direction="left">
                 <PokemonImage
                   id={pokemon.id}
                   name={pokemon.name}
-                  typeName={pokemon.types[0]?.type.name ?? 'normal'}
+                  typeName={primaryType}
                 />
+              </ScrollFade>
+              <ScrollFade direction="right">
                 <StatList pokemon={pokemon} />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </ScrollFade>
+            </div>
+          </>
+        )}
       </section>
     );
   },

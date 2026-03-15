@@ -1,12 +1,16 @@
 @use '@/styles/abstracts' as *;
 
 .section {
+  position: relative;
   background-color: $color-white;
   padding: 40px 0 60px;
+  overflow: hidden;
 }
 
 .content {
   @include wrapper;
+  position: relative;
+  z-index: 1;
 }
 
 .grid {

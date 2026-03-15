@@ -1,9 +1,8 @@
 'use client';
 
 import { memo, useCallback } from 'react';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { getSpriteUrl } from '@/lib/utils/get-sprite-url';
+import { PokemonSprite } from '@/components/ui/pokemon-sprite';
 import { formatPokemonName } from '@/lib/utils/format-pokemon-name';
 import type { Pokemon } from '@/lib/types';
 import styles from './form-card.module.scss';
@@ -19,6 +18,8 @@ export const FormCard = memo(function FormCard({ pokemon, onSelect, index }: For
     onSelect(pokemon.name);
   }, [pokemon.name, onSelect]);
 
+  const primaryType = pokemon.types[0]?.type.name ?? 'normal';
+
   return (
     <motion.button
       className={styles.card}
@@ -28,14 +29,7 @@ export const FormCard = memo(function FormCard({ pokemon, onSelect, index }: For
       transition={{ duration: 0.3, delay: index * 0.1 }}
       aria-label={`View ${formatPokemonName(pokemon.name)}`}
     >
-      <Image
-        src={getSpriteUrl(pokemon.id)}
-        alt={formatPokemonName(pokemon.name)}
-        width={96}
-        height={96}
-        className={styles.sprite}
-        sizes="96px"
-      />
+      <PokemonSprite id={pokemon.id} name={pokemon.name} typeName={primaryType} size={150} />
       <span className={styles.name}>{formatPokemonName(pokemon.name)}</span>
     </motion.button>
   );

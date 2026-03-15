@@ -5,10 +5,11 @@ import { useSelectedPokemon } from '@/hooks/use-selected-pokemon';
 import { usePokemon } from '@/hooks/use-pokemon';
 import { usePokemonSpecies } from '@/hooks/use-pokemon-species';
 import { useEvolutionChain } from '@/hooks/use-evolution-chain';
-import { getTypeColor } from '@/lib/constants/type-colors';
+import { getTypeColor, getTypeTint } from '@/lib/constants/type-colors';
 import { SectionHeading } from '@/components/ui/section-heading';
+import { TypeBackground } from '@/components/ui/type-background';
+import { ScrollFade } from '@/components/ui/scroll-fade';
 import { EvolutionStage } from './evolution-stage';
-import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import styles from './evolution-section.module.scss';
 
 interface EvolutionSectionProps {
@@ -20,10 +21,7 @@ export const EvolutionSection = forwardRef<HTMLElement, EvolutionSectionProps>(
     const { name } = useSelectedPokemon();
     const { data: pokemon } = usePokemon(name);
     const { data: species } = usePokemonSpecies(name);
-    const {
-      data: stages,
-      isLoading,
-    } = useEvolutionChain(species?.evolution_chain?.url ?? null);
+    const { data: stages } = useEvolutionChain(species?.evolution_chain?.url ?? null);
 
     const handleSelect = useCallback(
       (stageName: string) => {
@@ -32,37 +30,30 @@ export const EvolutionSection = forwardRef<HTMLElement, EvolutionSectionProps>(
       [onPokemonSelect],
     );
 
-    if (!name) return null;
-
-    // don't show evolution section for single-stage pokemon
-    if (stages && stages.length <= 1) return null;
+    if (!name || !stages || stages.length <= 1) return null;
 
     const primaryType = pokemon?.types[0]?.type.name ?? 'normal';
     const typeColor = getTypeColor(primaryType);
 
     return (
       <section ref={ref} className={styles.section}>
-        <div className={styles.content}>
-          <SectionHeading>Evolution Chain</SectionHeading>
-
-          {isLoading && <LoadingSkeleton variant="chain" />}
-
-          {stages && stages.length > 1 && (
-            <div className={styles.chain}>
-              {stages.map((stage, index) => (
-                <EvolutionStage
-                  key={stage.name}
-                  stage={stage}
-                  index={index}
-                  isLast={index === stages.length - 1}
-                  isActive={stage.name === name}
-                  typeColor={typeColor}
-                  onSelect={handleSelect}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+        <TypeBackground color={getTypeTint(primaryType, 0.88)} />
+        <ScrollFade className={styles.content}>
+          <SectionHeading color={typeColor}>Evolution Chain</SectionHeading>
+          <div className={styles.chain}>
+            {stages.map((stage, index) => (
+              <EvolutionStage
+                key={stage.name}
+                stage={stage}
+                index={index}
+                isLast={index === stages.length - 1}
+                isActive={stage.name === name}
+                typeName={primaryType}
+                onSelect={handleSelect}
+              />
+            ))}
+          </div>
+        </ScrollFade>
       </section>
     );
   },

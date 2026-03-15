@@ -12,18 +12,24 @@ import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import { useScrollToSection } from '@/hooks/use-scroll-to-section';
 import { useSelectedPokemon } from '@/hooks/use-selected-pokemon';
+import { usePokemon } from '@/hooks/use-pokemon';
+import { getTypeColor, getTypeColorVibrant } from '@/lib/constants/type-colors';
 
-// the main client-side app — handles all state and scroll coordination
-// separated from page.tsx so the page can remain a server component with Suspense
 export function PokedexApp() {
   const searchRef = useScrollToSection<HTMLElement>();
   const cardRef = useScrollToSection<HTMLElement>();
-  const { setName } = useSelectedPokemon();
+  const { name, setName } = useSelectedPokemon();
+  const { data: pokemon } = usePokemon(name);
 
-  // when a pokemon is selected from any section, update the URL and scroll to the card
+  const primaryType = pokemon?.types[0]?.type.name ?? 'normal';
+
+  // soft version for accents, vibrant for buttons that need to pop
+  const typeColor = pokemon ? getTypeColor(primaryType) : undefined;
+  const vibrantColor = pokemon ? getTypeColorVibrant(primaryType) : undefined;
+
   const handlePokemonSelect = useCallback(
-    (name: string) => {
-      setName(name);
+    (pokemonName: string) => {
+      setName(pokemonName);
       requestAnimationFrame(() => {
         cardRef.scrollTo();
       });
@@ -75,7 +81,7 @@ export function PokedexApp() {
         </Suspense>
       </ErrorBoundary>
 
-      <ScrollToTop onClick={handleScrollToTop} />
+      <ScrollToTop onClick={handleScrollToTop} color={vibrantColor} />
 
       <footer style={{
         textAlign: 'center',
@@ -90,7 +96,7 @@ export function PokedexApp() {
             href="https://github.com/asif-a-khan"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: '#e84118', textDecoration: 'none' }}
+            style={{ color: typeColor ?? '#e84118', textDecoration: 'none' }}
           >
             Asif Khan
           </a>

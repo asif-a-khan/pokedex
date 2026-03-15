@@ -6,6 +6,7 @@ import styles from './paint-button.module.scss';
 interface PaintButtonProps {
   label: string;
   onClick: () => void;
+  color?: string;
 }
 
 // the paint splatter transforms from the original — each one has a unique offset and rotation
@@ -21,11 +22,12 @@ const paintVariants = {
   hover: { scaleY: 1 },
 };
 
-export function PaintButton({ label, onClick }: PaintButtonProps) {
+export function PaintButton({ label, onClick, color }: PaintButtonProps) {
   return (
     <motion.button
       className={styles.button}
       onClick={onClick}
+      style={color ? { backgroundColor: color } : undefined}
       whileHover="hover"
       initial="idle"
       animate="idle"

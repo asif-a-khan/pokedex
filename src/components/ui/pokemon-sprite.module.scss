@@ -1,0 +1,84 @@
+@use '@/styles/abstracts' as *;
+
+// the wrapper is taller than the sprite to leave room for the glow pulse
+// and the name text below — prevents overlap
+.wrapper {
+  position: relative;
+  @include flex-center;
+  width: var(--sprite-size, 160px);
+  // extra vertical space so the pulsing glow doesn't eat the name
+  height: calc(var(--sprite-size, 160px) + 20px);
+}
+
+.glow {
+  width: calc(var(--sprite-size, 160px) * 1.2);
+  height: calc(var(--sprite-size, 160px) * 1.2);
+  border-radius: 50%;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: $z-glow;
+  pointer-events: none;
+  opacity: 0.6;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+}
+
+.wrapper:hover .glow {
+  opacity: 1;
+  animation: sprite-glow-pulse 2s ease-in-out infinite;
+}
+
+.image {
+  position: relative;
+  z-index: $z-image;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  // quick hop on hover — makes the sprites feel alive
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.wrapper:hover .image {
+  animation: sprite-bounce 1.2s ease-out;
+}
+
+// the pulse stays modest so it doesn't bleed into sibling text
+@keyframes sprite-glow-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+// marble bounce — each bounce gets shorter and faster, like a real ball losing energy.
+// 8 bounces total, the last few are basically vibrations.
+@keyframes sprite-bounce {
+  0%        { transform: translateY(0); }
+  // bounce 1 — biggest
+  8%        { transform: translateY(-20px); }
+  16%       { transform: translateY(0); }
+  // bounce 2
+  22%       { transform: translateY(-14px); }
+  28%       { transform: translateY(0); }
+  // bounce 3
+  33%       { transform: translateY(-10px); }
+  38%       { transform: translateY(0); }
+  // bounce 4
+  43%       { transform: translateY(-7px); }
+  48%       { transform: translateY(0); }
+  // bounce 5
+  53%       { transform: translateY(-5px); }
+  58%       { transform: translateY(0); }
+  // bounce 6
+  64%       { transform: translateY(-3px); }
+  70%       { transform: translateY(0); }
+  // bounce 7
+  77%       { transform: translateY(-2px); }
+  84%       { transform: translateY(0); }
+  // bounce 8 — barely a twitch
+  90%       { transform: translateY(-1px); }
+  100%      { transform: translateY(0); }
+}

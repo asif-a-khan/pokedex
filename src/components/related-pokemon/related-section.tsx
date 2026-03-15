@@ -4,10 +4,12 @@ import { forwardRef, useCallback } from 'react';
 import { useSelectedPokemon } from '@/hooks/use-selected-pokemon';
 import { usePokemon } from '@/hooks/use-pokemon';
 import { useRelatedPokemon } from '@/hooks/use-related-pokemon';
+import { getTypeColor, getTypeColorVibrant, getTypeTint } from '@/lib/constants/type-colors';
 import { SectionHeading } from '@/components/ui/section-heading';
+import { TypeBackground } from '@/components/ui/type-background';
+import { ScrollFade } from '@/components/ui/scroll-fade';
 import { RelatedCard } from './related-card';
 import { PaintButton } from '@/components/paint-button/paint-button';
-import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import styles from './related-section.module.scss';
 
 interface RelatedSectionProps {
@@ -21,7 +23,7 @@ export const RelatedSection = forwardRef<HTMLElement, RelatedSectionProps>(
     const { data: pokemon } = usePokemon(name);
 
     const primaryType = pokemon?.types[0]?.type.name ?? null;
-    const { data: related, isLoading } = useRelatedPokemon(primaryType, name);
+    const { data: related } = useRelatedPokemon(primaryType, name);
 
     const handleSelect = useCallback(
       (pokemonName: string) => {
@@ -30,32 +32,30 @@ export const RelatedSection = forwardRef<HTMLElement, RelatedSectionProps>(
       [onPokemonSelect],
     );
 
-    if (!name) return null;
+    // hide completely if nothing to show
+    if (!name || !related || related.length === 0) return null;
+
+    const typeColor = getTypeColor(primaryType ?? 'normal');
 
     return (
       <section ref={ref} className={styles.section}>
-        <div className={styles.content}>
-          <SectionHeading>Related Pokemon</SectionHeading>
-
-          {isLoading && <LoadingSkeleton variant="grid" />}
-
-          {related && related.length > 0 && (
-            <div className={styles.grid}>
-              {related.map((p, index) => (
-                <RelatedCard
-                  key={p.id}
-                  pokemon={p}
-                  onSelect={handleSelect}
-                  index={index}
-                />
-              ))}
-            </div>
-          )}
-
-          <div className={styles.actions}>
-            <PaintButton label="Back to Top" onClick={onScrollToTop} />
+        <TypeBackground color={getTypeTint(primaryType ?? 'normal', 0.87)} />
+        <ScrollFade className={styles.content}>
+          <SectionHeading color={typeColor}>Related Pokemon</SectionHeading>
+          <div className={styles.grid}>
+            {related.map((p, index) => (
+              <RelatedCard
+                key={p.id}
+                pokemon={p}
+                onSelect={handleSelect}
+                index={index}
+              />
+            ))}
           </div>
-        </div>
+          <div className={styles.actions}>
+            <PaintButton label="Back to Top" onClick={onScrollToTop} color={getTypeColorVibrant(primaryType ?? 'normal')} />
+          </div>
+        </ScrollFade>
       </section>
     );
   },

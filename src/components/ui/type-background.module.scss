@@ -1,0 +1,17 @@
+@use '@/styles/abstracts' as *;
+
+.container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+// each paint span is a big rotated rectangle that overshoots the section
+// they overlap to guarantee full coverage once all 4 are revealed
+.paint {
+  position: absolute;
+  top: -20%;
+  height: 140%;
+}

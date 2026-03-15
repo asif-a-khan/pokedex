@@ -8,9 +8,10 @@ import styles from './search-bar.module.scss';
 
 interface SearchBarProps {
   onSelect: (name: string) => void;
+  accentColor?: string;
 }
 
-export function SearchBar({ onSelect }: SearchBarProps) {
+export function SearchBar({ onSelect, accentColor }: SearchBarProps) {
   const { query, isExpanded } = useSearchState();
   const dispatch = useSearchDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -67,6 +68,7 @@ export function SearchBar({ onSelect }: SearchBarProps) {
       onSubmit={handleSubmit}
       onClick={handleExpand}
       role="search"
+      style={accentColor ? { '--accent-color': accentColor } as React.CSSProperties : undefined}
     >
       <label htmlFor="pokemon-search" className="srOnly">
         Search for a Pokemon

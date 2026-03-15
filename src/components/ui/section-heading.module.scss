@@ -10,7 +10,8 @@
     content: '';
     display: block;
     width: 80px;
-    border-bottom: 8px solid $color-primary;
+    // uses CSS custom property so the color can be set per-type from JS
+    border-bottom: 8px solid var(--accent-color, $color-primary);
     position: absolute;
     bottom: 0;
     left: 50%;

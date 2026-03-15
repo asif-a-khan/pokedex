@@ -28,9 +28,6 @@ export const metadata: Metadata = {
   title: 'Pokedex | Search and Explore Pokemon',
   description:
     'A modern Pokedex built with Next.js. Search for any Pokemon and view their stats, evolution chain, alternate forms, and related Pokemon.',
-  icons: {
-    icon: '/pokeball-red.png',
-  },
 };
 
 export default function RootLayout({

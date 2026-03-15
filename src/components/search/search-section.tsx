@@ -3,6 +3,8 @@
 import { forwardRef, useCallback } from 'react';
 import Image from 'next/image';
 import { useSelectedPokemon } from '@/hooks/use-selected-pokemon';
+import { usePokemon } from '@/hooks/use-pokemon';
+import { getTypeColorVibrant } from '@/lib/constants/type-colors';
 import { SearchBar } from './search-bar';
 import { ScrollArrows } from '@/components/scroll-arrows/scroll-arrows';
 import styles from './search-section.module.scss';
@@ -13,12 +15,18 @@ interface SearchSectionProps {
 
 export const SearchSection = forwardRef<HTMLElement, SearchSectionProps>(
   function SearchSection({ onPokemonSelected }, ref) {
-    const { setName } = useSelectedPokemon();
+    const { name, setName } = useSelectedPokemon();
+    const { data: pokemon } = usePokemon(name);
+
+    // intense type color for the header — fire stays default orange,
+    // other types get their full-strength color
+    const bgColor = pokemon
+      ? getTypeColorVibrant(pokemon.types[0]?.type.name ?? 'fire')
+      : undefined;
 
     const handleSelect = useCallback(
-      (name: string) => {
-        setName(name);
-        // give the URL state a tick to update before scrolling
+      (selectedName: string) => {
+        setName(selectedName);
         requestAnimationFrame(() => {
           onPokemonSelected();
         });
@@ -27,7 +35,11 @@ export const SearchSection = forwardRef<HTMLElement, SearchSectionProps>(
     );
 
     return (
-      <header ref={ref} className={styles.header}>
+      <header
+        ref={ref}
+        className={styles.header}
+        style={bgColor ? { backgroundColor: bgColor } : undefined}
+      >
         <Image
           src="/pokemon-logo.png"
           alt="Pokemon"
@@ -45,7 +57,7 @@ export const SearchSection = forwardRef<HTMLElement, SearchSectionProps>(
           priority
         />
 
-        <SearchBar onSelect={handleSelect} />
+        <SearchBar onSelect={handleSelect} accentColor={bgColor} />
         <ScrollArrows />
       </header>
     );

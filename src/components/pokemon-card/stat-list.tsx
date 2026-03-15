@@ -56,9 +56,11 @@ export function StatList({ pokemon }: StatListProps) {
     color: getTypeColor(t.type.name),
   }));
 
-  const abilities = pokemon.abilities
-    .map((a) => a.ability.name.replace('-', ' '))
-    .join(', ');
+  // each ability gets its own chip, hidden abilities get a slightly different shade
+  const abilityChips = pokemon.abilities.map((a) => ({
+    label: a.ability.name.replace('-', ' '),
+    color: a.is_hidden ? '#6c3483' : STAT_COLORS.ability,
+  }));
 
   return (
     <div className={styles.stats}>
@@ -67,7 +69,7 @@ export function StatList({ pokemon }: StatListProps) {
         <StatItem icon={<Flame size={20} />} label="Type" value="" color={typeColor} chips={typeChips} />
         <StatItem icon={<Ruler size={20} />} label="Height" value={height} color={STAT_COLORS.height} isTextValue />
         <StatItem icon={<Weight size={20} />} label="Weight" value={weight} color={STAT_COLORS.weight} isTextValue />
-        <StatItem icon={<Sparkles size={20} />} label="Abilities" value={abilities} color={STAT_COLORS.ability} isTextValue />
+        <StatItem icon={<Sparkles size={20} />} label="Abilities" value="" color={STAT_COLORS.ability} chips={abilityChips} />
       </ul>
       <ul className={styles.column}>
         <StatItem icon={<Heart size={20} />} label="HP" value={hp} color={STAT_COLORS.hp} />

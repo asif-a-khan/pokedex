@@ -1,12 +1,15 @@
 @use '@/styles/abstracts' as *;
 
 .section {
+  position: relative;
   background-color: $color-white;
   padding: 60px 0 80px;
+  overflow: hidden;
 }
 
 .content {
-  @include wrapper;
+  position: relative;
+  z-index: 1;
 }
 
 // let the chain spread out and breathe

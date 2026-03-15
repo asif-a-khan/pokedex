@@ -67,7 +67,7 @@
 
   &:hover,
   &:focus-visible {
-    background-color: $color-primary;
+    background-color: var(--accent-color, $color-primary);
   }
 
   img {
