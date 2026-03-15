@@ -1,0 +1,62 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+// responsive media query shorthand — saves typing the full @media every time
+@mixin respond-to($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (max-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+// the circular colored glow that appears behind pokemon images
+// this was the signature visual in the original project
+@mixin type-glow($size: 250px) {
+  content: '';
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity $transition-medium ease;
+  z-index: $z-glow;
+}
+
+// centered flex container — used all over the place
+@mixin flex-center($direction: row) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: $direction;
+}
+
+// the wrapper pattern from the original
+@mixin wrapper {
+  max-width: $wrapper-max-width;
+  width: $wrapper-width;
+  margin: 0 auto;
+
+  @include respond-to('xs') {
+    width: 90%;
+  }
+}
+
+// visually hidden but accessible to screen readers
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}

@@ -1,0 +1,61 @@
+@use '@/styles/abstracts' as *;
+
+.section {
+  background-color: $color-white;
+  padding: 40px 0;
+  min-height: 100vh;
+}
+
+// hidden when no pokemon is selected — collapses to zero height
+// but the element stays in the DOM so the scroll ref works
+.empty {
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.heading {
+  text-align: center;
+  position: relative;
+  padding-bottom: 20px;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 80px;
+    border-bottom: 8px solid $color-primary;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.card {
+  @include wrapper;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-height: 500px;
+  padding: 40px 0;
+
+  @include respond-to('lg') {
+    flex-direction: column;
+  }
+}
+
+.loading {
+  @include flex-center;
+  min-height: 400px;
+  color: rgba($color-text, 0.5);
+  font-size: 1.25rem;
+}
+
+.error {
+  @include flex-center;
+  min-height: 200px;
+  color: $color-primary;
+  font-size: 1.25rem;
+  text-align: center;
+  padding: 40px;
+}

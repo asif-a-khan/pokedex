@@ -1,0 +1,77 @@
+@use '@/styles/abstracts' as *;
+
+.searchBox {
+  box-sizing: content-box;
+  background-color: $color-dark;
+  height: 80px;
+  border-radius: 80px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: $z-search-dropdown + 1;
+}
+
+.input {
+  border: none;
+  background: none;
+  outline: none;
+  padding: 0;
+  color: $color-white;
+  font-family: var(--font-heading);
+  line-height: 80px;
+  width: 0;
+  transition: width $transition-slow ease, padding $transition-slow ease;
+  font-size: 2.5rem;
+  font-weight: 400;
+  overflow: hidden;
+
+  // placeholder styling
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  @include respond-to('sm') {
+    font-size: 1.875rem;
+  }
+
+  @include respond-to('xxs') {
+    font-size: 1.375rem;
+  }
+}
+
+// expanded state applied via JS
+.inputExpanded {
+  width: 400px;
+  padding-left: 20px;
+
+  @include respond-to('sm') {
+    width: 250px;
+  }
+
+  @include respond-to('xxs') {
+    width: 150px;
+  }
+}
+
+.submitButton {
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  border-radius: 50%;
+  background-color: $color-dark;
+  @include flex-center;
+  transition: background-color $transition-slow ease;
+  cursor: pointer;
+  border: none;
+
+  &:hover,
+  &:focus-visible {
+    background-color: $color-primary;
+  }
+
+  img {
+    width: 40px;
+    height: 40px;
+  }
+}

@@ -1,0 +1,10 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+// grab a type color from the map, or fall back to the normal type color
+@function type-color($type) {
+  @if map.has-key($type-colors, $type) {
+    @return map.get($type-colors, $type);
+  }
+  @return map.get($type-colors, 'normal');
+}

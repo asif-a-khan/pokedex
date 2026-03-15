@@ -1,0 +1,19 @@
+@use '@/styles/abstracts' as *;
+
+.heading {
+  text-align: center;
+  position: relative;
+  padding-bottom: 20px;
+  margin-bottom: 32px;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 80px;
+    border-bottom: 8px solid $color-primary;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

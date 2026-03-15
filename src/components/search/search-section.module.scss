@@ -1,0 +1,45 @@
+@use '@/styles/abstracts' as *;
+
+.header {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  background-color: $color-primary;
+  @include flex-center(column);
+  overflow: hidden;
+}
+
+.logo {
+  width: 400px;
+  height: auto;
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  @include respond-to('xs') {
+    width: 300px;
+    top: 100px;
+  }
+}
+
+.catchphrase {
+  width: 350px;
+  height: auto;
+  position: absolute;
+  top: 220px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  @include respond-to('xs') {
+    width: 250px;
+    top: 180px;
+  }
+}
+
+.errorMessage {
+  color: $color-white;
+  font-size: 1.875rem;
+  padding: 2.5rem 0;
+  text-align: center;
+}

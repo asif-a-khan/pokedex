@@ -1,0 +1,27 @@
+// pokeball bounce — ported straight from the original preloader
+// the different easing per keyframe gives it that "real physics" feel
+@keyframes bounce {
+  16%,
+  48%,
+  78% {
+    top: 50%;
+    animation-timing-function: ease-out;
+  }
+  32% {
+    top: 12.5%;
+    animation-timing-function: ease-in;
+  }
+  62% {
+    top: 25%;
+    animation-timing-function: ease-in;
+  }
+  90% {
+    top: 37.5%;
+    animation-timing-function: ease-in;
+  }
+  100% {
+    top: 50%;
+    left: 50%;
+    animation-timing-function: ease-out;
+  }
+}

@@ -1,0 +1,50 @@
+@use '@/styles/abstracts' as *;
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background-color: $color-dark;
+  border-radius: 16px;
+  overflow: hidden;
+  z-index: $z-search-dropdown;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.list {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.item {
+  padding: 12px 24px;
+  color: $color-white;
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  &:hover,
+  &:focus-visible,
+  &.highlighted {
+    background-color: $color-primary;
+  }
+}
+
+.itemId {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.875rem;
+  min-width: 40px;
+}
+
+.noResults {
+  padding: 16px 24px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1rem;
+  text-align: center;
+}

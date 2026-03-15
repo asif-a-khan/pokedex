@@ -1,0 +1,5 @@
+// single entry point for all abstracts — component modules only need:
+// @use '@/styles/abstracts' as *;
+@forward 'variables';
+@forward 'mixins';
+@forward 'functions';

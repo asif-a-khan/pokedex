@@ -1,0 +1,119 @@
+@use '@/styles/abstracts' as *;
+
+.stage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  @include respond-to('md') {
+    gap: 16px;
+  }
+}
+
+.card {
+  @include flex-center(column);
+  cursor: pointer;
+  padding: 24px 32px;
+  border-radius: 24px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-width: 160px;
+  position: relative;
+  border: none;
+  background: none;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  // the currently selected pokemon gets a prominent highlight
+  &.active {
+    background-color: rgba($color-primary, 0.08);
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.3);
+  }
+
+  @include respond-to('sm') {
+    min-width: 120px;
+    padding: 16px 20px;
+  }
+}
+
+// type-colored glow behind the sprite — matches the main card's style
+.glow {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: $z-glow;
+  pointer-events: none;
+  opacity: 0.5;
+  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  @include respond-to('sm') {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+.card:hover .glow {
+  opacity: 0.8;
+  animation: evo-pulse 2s ease-in-out infinite;
+}
+
+.card.active .glow {
+  opacity: 0.7;
+}
+
+.sprite {
+  width: 140px;
+  height: 140px;
+  position: relative;
+  z-index: $z-image;
+
+  @include respond-to('sm') {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+.name {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-top: 12px;
+  text-align: center;
+
+  @include respond-to('sm') {
+    font-size: 0.875rem;
+  }
+}
+
+// level chip styled like the stat chips
+.level {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  color: $color-white;
+  background-color: rgba($color-text, 0.6);
+}
+
+.arrow {
+  color: rgba($color-text, 0.2);
+  flex-shrink: 0;
+}
+
+@keyframes evo-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}

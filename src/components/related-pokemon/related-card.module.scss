@@ -1,0 +1,49 @@
+@use '@/styles/abstracts' as *;
+
+.card {
+  @include flex-center(column);
+  cursor: pointer;
+  padding: 32px;
+  border-radius: 20px;
+  position: relative;
+  transition: transform 0.3s ease;
+  background: none;
+  border: none;
+
+  &:hover {
+    transform: translateY(-6px);
+
+    .glow {
+      opacity: 1;
+    }
+  }
+}
+
+.glow {
+  @include type-glow(200px);
+  pointer-events: none;
+
+  @include respond-to('xl') {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+.sprite {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  position: relative;
+  z-index: $z-image;
+}
+
+.name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-top: 12px;
+  text-align: center;
+  position: relative;
+  z-index: $z-image;
+}

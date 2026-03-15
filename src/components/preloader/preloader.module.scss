@@ -1,0 +1,54 @@
+@use '@/styles/abstracts' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: $color-dark;
+  z-index: $z-preloader;
+  transition: opacity 0.6s ease;
+
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.pokeball {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  z-index: $z-preloader-ball;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  animation: pokeball-bounce 3s linear forwards;
+}
+
+// keyframes need to live in the same module file so they're in scope
+// ported directly from the original preloader — each keyframe uses a different
+// easing to fake real gravity (ease-in going up, ease-out coming down)
+@keyframes pokeball-bounce {
+  16%,
+  48%,
+  78% {
+    top: 50%;
+    animation-timing-function: ease-out;
+  }
+  32% {
+    top: 12.5%;
+    animation-timing-function: ease-in;
+  }
+  62% {
+    top: 25%;
+    animation-timing-function: ease-in;
+  }
+  90% {
+    top: 37.5%;
+    animation-timing-function: ease-in;
+  }
+  100% {
+    top: 50%;
+    left: 50%;
+    animation-timing-function: ease-out;
+  }
+}

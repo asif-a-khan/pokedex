@@ -1,0 +1,31 @@
+@use '@/styles/abstracts' as *;
+
+.section {
+  background-color: $color-white;
+  padding: 40px 0 60px;
+}
+
+.content {
+  @include wrapper;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding: 20px 0;
+
+  @include respond-to('md') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to('xs') {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.actions {
+  @include flex-center;
+  padding: 40px 0;
+}

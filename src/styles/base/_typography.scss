@@ -1,0 +1,35 @@
+@use '../abstracts' as *;
+
+// heading defaults — Raleway for that clean, modern look
+// the font itself gets loaded through next/font in layout.tsx,
+// these are the sizing and weight defaults
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-align: center;
+}
+
+h1 {
+  font-size: clamp(3rem, 8vw, 5rem);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+h2 {
+  font-size: clamp(2rem, 5vw, 3.125rem);
+  text-transform: capitalize;
+  padding: 1.25rem 0;
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  text-transform: capitalize;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: $color-text;
+}

@@ -1,0 +1,35 @@
+@use '@/styles/abstracts' as *;
+
+.skeleton {
+  @include wrapper;
+  padding: 40px 0;
+}
+
+.pulse {
+  background: linear-gradient(
+    90deg,
+    rgba($color-dark, 0.06) 25%,
+    rgba($color-dark, 0.12) 50%,
+    rgba($color-dark, 0.06) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+}
+
+.card .pulse {
+  height: 400px;
+}
+
+.chain .pulse {
+  height: 150px;
+}
+
+.grid .pulse {
+  height: 300px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

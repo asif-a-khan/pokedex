@@ -1,0 +1,61 @@
+// Design tokens
+// Pulled from the original project's color palette and extended for the full type system
+
+// brand
+$color-primary: #e84118;
+$color-dark: #2f3640;
+$color-white: #fff;
+$color-text: #2f3640;
+
+// pokemon type colors — these map 1:1 to PokeAPI type names
+$type-colors: (
+  'fire': #e84118,
+  'grass': #92c88a,
+  'water': #97b3e6,
+  'electric': #ffe67f,
+  'ground': #b9741f,
+  'rock': #b2adaa,
+  'fairy': #f9c2c6,
+  'poison': #a69fc8,
+  'bug': #cad479,
+  'dragon': #658ab3,
+  'psychic': #bb558e,
+  'flying': #5eb9b2,
+  'fighting': #f98423,
+  'normal': #d6d3d4,
+  'steel': #67768d,
+  'dark': #4a4a4a,
+  'ice': #98d8d8,
+  'ghost': #7b62a3,
+);
+
+// responsive breakpoints (matching original layout shifts)
+$breakpoints: (
+  'xl': 1200px,
+  'lg': 1050px,
+  'md': 800px,
+  'sm': 600px,
+  'xs': 500px,
+  'xxs': 370px,
+);
+
+// transition durations (matching original timing feel)
+$transition-fast: 0.5s;
+$transition-medium: 0.8s;
+$transition-slow: 1s;
+
+// layout
+$wrapper-max-width: 1200px;
+$wrapper-width: 80%;
+
+// fonts — loaded via next/font, these are fallback stacks
+$font-heading: 'Raleway', sans-serif;
+$font-body: 'Hind Madurai', sans-serif;
+
+// z-index layers to avoid magic numbers scattered everywhere
+$z-preloader: 50;
+$z-preloader-ball: 100;
+$z-search-dropdown: 40;
+$z-image: 10;
+$z-glow: 5;
+$z-scroll-top: 30;

@@ -1,0 +1,18 @@
+@use '../abstracts' as *;
+
+// wrapper utility class for consistent page-width sections
+.wrapper {
+  @include wrapper;
+}
+
+// screen reader only — for accessibility labels
+.srOnly {
+  @include sr-only;
+}
+
+// images default to being responsive
+img {
+  height: auto;
+  position: relative;
+  z-index: $z-image;
+}

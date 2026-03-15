@@ -1,0 +1,24 @@
+@use '@/styles/abstracts' as *;
+
+.section {
+  background-color: $color-white;
+  padding: 60px 0 80px;
+}
+
+.content {
+  @include wrapper;
+}
+
+// let the chain spread out and breathe
+.chain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 40px 0;
+
+  @include respond-to('md') {
+    gap: 24px;
+  }
+}

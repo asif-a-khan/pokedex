@@ -1,0 +1,13 @@
+// scroll arrow flash — the staggered arrow indicators from the original header
+// each arrow fades in briefly then disappears, offset by ~1s from the next
+@keyframes flash {
+  0%,
+  50%,
+  75%,
+  100% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+}

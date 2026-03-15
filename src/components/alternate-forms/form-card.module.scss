@@ -1,0 +1,31 @@
+@use '@/styles/abstracts' as *;
+
+.card {
+  @include flex-center(column);
+  cursor: pointer;
+  padding: 20px;
+  border-radius: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: $color-white;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.sprite {
+  width: 96px;
+  height: 96px;
+  position: relative;
+  z-index: $z-image;
+}
+
+.name {
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 8px;
+  text-transform: capitalize;
+}

@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pokedex
+
+A modern Pokedex application built with Next.js 15. Search for any Pokemon and view their stats, evolution chain, alternate forms, and related Pokemon by type.
+
+## Features
+
+- **Search with autocomplete** — type-ahead suggestions with debounced filtering and hover prefetching
+- **Detailed Pokemon cards** — all base stats, abilities, type info, height/weight
+- **Evolution chains** — visual evolution path with clickable stages
+- **Alternate forms** — megas, regional variants, gigantamax forms
+- **Related Pokemon** — 6 random Pokemon of the same primary type
+- **URL-driven state** — shareable links via `?pokemon=charizard`
+- **Smooth scroll navigation** — single-page scrolling experience with scroll-to-top
+
+## Tech Stack
+
+- **Next.js 15** (App Router) with TypeScript
+- **React Context + useReducer** for state management (split state/dispatch pattern)
+- **TanStack Query v5** for data fetching with caching
+- **Framer Motion** for interactive animations
+- **SCSS Modules** with a 7-1 architecture for styling
+- **Lucide React** for icons
+
+## Architecture
+
+```
+src/
+├── app/              # Next.js App Router pages and API routes
+├── components/       # UI components, co-located with SCSS modules
+├── context/          # React Context providers (search, pokedex)
+├── hooks/            # Custom hooks (data fetching, debounce, scroll)
+├── lib/              # API layer, types, constants, utilities
+└── styles/           # Global SCSS (abstracts, base, animations)
+```
+
+### State Management
+
+Uses the React Context split pattern: state and dispatch live in separate contexts per domain, preventing unnecessary re-renders. The selected Pokemon lives in URL search params for shareability.
+
+### Data Fetching
+
+TanStack Query handles all PokeAPI requests with `staleTime: Infinity` (Pokemon data doesn't change). A Next.js route handler (`/api/pokemon-names`) caches the full name list server-side with daily revalidation.
+
+### Styling
+
+SCSS Modules for component-scoped styles. Shared design tokens (colors, breakpoints, timing) live in `styles/abstracts/` and are imported via `@use`. Type colors are applied as inline styles since they're determined at runtime.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Performance
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- On-demand data fetching (no more 807 parallel requests on load)
+- Debounced search input (300ms) and hover prefetching (150ms)
+- `staleTime: Infinity` for cached Pokemon data
+- AbortController integration for cancelled requests on rapid navigation
+- `React.memo` on list items to prevent unnecessary re-renders
+- `next/image` with responsive `sizes` for optimized image loading
 
-## Learn More
+## API
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Data sourced from [PokeAPI v2](https://pokeapi.co/). Pokemon artwork from the [official PokeAPI sprites repo](https://github.com/PokeAPI/sprites).

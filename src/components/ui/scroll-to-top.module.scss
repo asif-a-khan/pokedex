@@ -1,0 +1,29 @@
+@use '@/styles/abstracts' as *;
+
+.button {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: $color-primary;
+  color: $color-white;
+  @include flex-center;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  z-index: $z-scroll-top;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+
+  &.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
