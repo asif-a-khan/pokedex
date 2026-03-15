@@ -32,7 +32,6 @@ export const RelatedSection = forwardRef<HTMLElement, RelatedSectionProps>(
       [onPokemonSelect],
     );
 
-    // hide completely if nothing to show
     if (!name || !related || related.length === 0) return null;
 
     const typeColor = getTypeColor(primaryType ?? 'normal');
@@ -40,22 +39,28 @@ export const RelatedSection = forwardRef<HTMLElement, RelatedSectionProps>(
     return (
       <section ref={ref} className={styles.section}>
         <TypeBackground color={getTypeTint(primaryType ?? 'normal', 0.87)} />
-        <ScrollFade className={styles.content}>
-          <SectionHeading color={typeColor}>Related Pokemon</SectionHeading>
-          <div className={styles.grid}>
-            {related.map((p, index) => (
-              <RelatedCard
-                key={p.id}
-                pokemon={p}
-                onSelect={handleSelect}
-                index={index}
-              />
-            ))}
-          </div>
-          <div className={styles.actions}>
-            <PaintButton label="Back to Top" onClick={onScrollToTop} color={getTypeColorVibrant(primaryType ?? 'normal')} />
-          </div>
-        </ScrollFade>
+        <div className={styles.content}>
+          <ScrollFade>
+            <SectionHeading color={typeColor}>Related Pokemon</SectionHeading>
+          </ScrollFade>
+          <ScrollFade direction="left">
+            <div className={styles.grid}>
+              {related.map((p, index) => (
+                <RelatedCard
+                  key={p.id}
+                  pokemon={p}
+                  onSelect={handleSelect}
+                  index={index}
+                />
+              ))}
+            </div>
+          </ScrollFade>
+          <ScrollFade>
+            <div className={styles.actions}>
+              <PaintButton label="Back to Top" onClick={onScrollToTop} color={getTypeColorVibrant(primaryType ?? 'normal')} />
+            </div>
+          </ScrollFade>
+        </div>
       </section>
     );
   },

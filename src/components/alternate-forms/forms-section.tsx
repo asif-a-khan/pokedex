@@ -30,7 +30,6 @@ export const FormsSection = forwardRef<HTMLElement, FormsSectionProps>(
       [onPokemonSelect],
     );
 
-    // hide completely if nothing to show
     if (!name || !forms || forms.length === 0) return null;
 
     const primaryType = pokemon?.types[0]?.type.name ?? 'normal';
@@ -38,19 +37,23 @@ export const FormsSection = forwardRef<HTMLElement, FormsSectionProps>(
     return (
       <section ref={ref} className={styles.section}>
         <TypeBackground color={getTypeTint(primaryType, 0.9)} />
-        <ScrollFade className={styles.content}>
-          <SectionHeading color={getTypeColor(primaryType)}>Alternate Forms</SectionHeading>
-          <div className={styles.grid}>
-            {forms.map((form, index) => (
-              <FormCard
-                key={form.id}
-                pokemon={form}
-                onSelect={handleSelect}
-                index={index}
-              />
-            ))}
-          </div>
-        </ScrollFade>
+        <div className={styles.content}>
+          <ScrollFade>
+            <SectionHeading color={getTypeColor(primaryType)}>Alternate Forms</SectionHeading>
+          </ScrollFade>
+          <ScrollFade direction="right">
+            <div className={styles.grid}>
+              {forms.map((form, index) => (
+                <FormCard
+                  key={form.id}
+                  pokemon={form}
+                  onSelect={handleSelect}
+                  index={index}
+                />
+              ))}
+            </div>
+          </ScrollFade>
+        </div>
       </section>
     );
   },

@@ -38,22 +38,26 @@ export const EvolutionSection = forwardRef<HTMLElement, EvolutionSectionProps>(
     return (
       <section ref={ref} className={styles.section}>
         <TypeBackground color={getTypeTint(primaryType, 0.88)} />
-        <ScrollFade className={styles.content}>
-          <SectionHeading color={typeColor}>Evolution Chain</SectionHeading>
-          <div className={styles.chain}>
-            {stages.map((stage, index) => (
-              <EvolutionStage
-                key={stage.name}
-                stage={stage}
-                index={index}
-                isLast={index === stages.length - 1}
-                isActive={stage.name === name}
-                typeName={primaryType}
-                onSelect={handleSelect}
-              />
-            ))}
-          </div>
-        </ScrollFade>
+        <div className={styles.content}>
+          <ScrollFade>
+            <SectionHeading color={typeColor}>Evolution Chain</SectionHeading>
+          </ScrollFade>
+          <ScrollFade direction="left">
+            <div className={styles.chain}>
+              {stages.map((stage, index) => (
+                <EvolutionStage
+                  key={stage.name}
+                  stage={stage}
+                  index={index}
+                  isLast={index === stages.length - 1}
+                  isActive={stage.name === name}
+                  typeName={primaryType}
+                  onSelect={handleSelect}
+                />
+              ))}
+            </div>
+          </ScrollFade>
+        </div>
       </section>
     );
   },
