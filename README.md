@@ -6,6 +6,8 @@ A modern, animated Pokedex built with Next.js 15 and the PokeAPI. Search any Pok
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+**[Live Demo](https://coded-pokedex.netlify.app)**
+
 ## Features
 
 - **Autocomplete search** — debounced type-ahead with hover prefetching for instant results
