@@ -19,7 +19,7 @@ export function AbilitiesModal({ isOpen, onClose, abilities, typeColor }: Abilit
       queryKey: ['ability', a.ability.name],
       queryFn: ({ signal }: { signal: AbortSignal }) => fetchAbility(a.ability.name, signal),
       enabled: isOpen,
-      staleTime: Infinity as const,
+      staleTime: Infinity,
     })),
   });
 
