@@ -6,6 +6,7 @@ import { ChevronRight } from 'lucide-react';
 import { PokemonSprite } from '@/components/ui/pokemon-sprite';
 import { getTypeColor } from '@/lib/constants/type-colors';
 import { formatPokemonName } from '@/lib/utils/format-pokemon-name';
+import { getCryUrl } from '@/lib/utils/get-cry-url';
 import type { EvolutionStage as EvolutionStageType } from '@/lib/types';
 import styles from './evolution-stage.module.scss';
 
@@ -46,7 +47,7 @@ export const EvolutionStage = memo(function EvolutionStage({
           '--active-border': `${getTypeColor(typeName)}4d`,
         } as React.CSSProperties}
       >
-        <PokemonSprite id={stage.id} name={stage.name} typeName={typeName} size={150} />
+        <PokemonSprite id={stage.id} name={stage.name} typeName={typeName} size={150} cryUrl={getCryUrl(stage.id)} />
         <span className={styles.name}>{formatPokemonName(stage.name)}</span>
         {stage.minLevel && (
           <span className={styles.level}>Lv. {stage.minLevel}</span>

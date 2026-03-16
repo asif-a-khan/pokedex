@@ -9,8 +9,8 @@ interface StatItemProps {
   value: string | number;
   color: string;
   isTextValue?: boolean;
-  // for rendering multiple colored chips (e.g. dual types)
   chips?: { label: string; color: string }[];
+  onChipClick?: () => void;
 }
 
 // memoized because these don't change unless the whole pokemon changes
@@ -21,6 +21,7 @@ export const StatItem = memo(function StatItem({
   color,
   isTextValue,
   chips,
+  onChipClick,
 }: StatItemProps) {
   return (
     <li className={styles.item}>
@@ -31,8 +32,11 @@ export const StatItem = memo(function StatItem({
         <span className={styles.label}>{label}</span>
 
         {chips ? (
-          // multiple chips side by side — used for types
-          <div className={styles.chipRow}>
+          <div
+            className={styles.chipRow}
+            onClick={onChipClick}
+            style={onChipClick ? { cursor: 'pointer' } : undefined}
+          >
             {chips.map((chip) => (
               <span
                 key={chip.label}

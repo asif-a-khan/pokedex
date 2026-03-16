@@ -9,6 +9,14 @@ export interface PokemonSpecies {
   varieties: PokemonVariety[];
   flavor_text_entries: FlavorTextEntry[];
   genera: Genus[];
+  habitat: NamedAPIResource | null;
+  color: NamedAPIResource;
+  growth_rate: NamedAPIResource;
+  capture_rate: number;
+  base_happiness: number | null;
+  egg_groups: NamedAPIResource[];
+  is_legendary: boolean;
+  is_mythical: boolean;
 }
 
 export interface PokemonVariety {

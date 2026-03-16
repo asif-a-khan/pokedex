@@ -7,6 +7,10 @@ export type {
   PokemonSprites,
   PokemonTypeResponse,
   TypePokemonEntry,
+  PokemonMove,
+  MoveDetail,
+  EffectEntry,
+  AbilityDetail,
 } from './pokemon';
 export type {
   PokemonSpecies,

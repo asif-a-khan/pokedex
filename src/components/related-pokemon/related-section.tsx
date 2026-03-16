@@ -15,10 +15,11 @@ import styles from './related-section.module.scss';
 interface RelatedSectionProps {
   onPokemonSelect: (name: string) => void;
   onScrollToTop: () => void;
+  navContent?: React.ReactNode;
 }
 
 export const RelatedSection = forwardRef<HTMLElement, RelatedSectionProps>(
-  function RelatedSection({ onPokemonSelect, onScrollToTop }, ref) {
+  function RelatedSection({ onPokemonSelect, onScrollToTop, navContent }, ref) {
     const { name } = useSelectedPokemon();
     const { data: pokemon } = usePokemon(name);
 
@@ -41,7 +42,7 @@ export const RelatedSection = forwardRef<HTMLElement, RelatedSectionProps>(
         <TypeBackground color={getTypeTint(primaryType ?? 'normal', 0.87)} />
         <div className={styles.content}>
           <ScrollFade>
-            <SectionHeading color={typeColor}>Related Pokemon</SectionHeading>
+            <SectionHeading color={typeColor}>Other {primaryType} Pokemon</SectionHeading>
           </ScrollFade>
           <ScrollFade direction="left">
             <div className={styles.grid}>
@@ -61,6 +62,7 @@ export const RelatedSection = forwardRef<HTMLElement, RelatedSectionProps>(
             </div>
           </ScrollFade>
         </div>
+        {navContent}
       </section>
     );
   },

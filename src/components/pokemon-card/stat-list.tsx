@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useCallback } from 'react';
 import {
   Heart,
   Swords,
@@ -14,6 +15,7 @@ import {
   ShieldPlus,
 } from 'lucide-react';
 import { StatItem } from './stat-item';
+import { AbilitiesModal } from './abilities-modal';
 import { getTypeColor } from '@/lib/constants/type-colors';
 import type { Pokemon } from '@/lib/types';
 import styles from './stat-list.module.scss';
@@ -37,6 +39,9 @@ interface StatListProps {
 }
 
 export function StatList({ pokemon }: StatListProps) {
+  const [showAbilities, setShowAbilities] = useState(false);
+  const handleOpenAbilities = useCallback(() => setShowAbilities(true), []);
+  const handleCloseAbilities = useCallback(() => setShowAbilities(false), []);
   const hp = pokemon.stats[0]?.base_stat ?? 0;
   const attack = pokemon.stats[1]?.base_stat ?? 0;
   const defense = pokemon.stats[2]?.base_stat ?? 0;
@@ -56,10 +61,10 @@ export function StatList({ pokemon }: StatListProps) {
     color: getTypeColor(t.type.name),
   }));
 
-  // each ability gets its own chip, hidden abilities get a slightly different shade
+  // abilities match the pokemon's type color, hidden ones get a darker shade
   const abilityChips = pokemon.abilities.map((a) => ({
     label: a.ability.name.replace('-', ' '),
-    color: a.is_hidden ? '#6c3483' : STAT_COLORS.ability,
+    color: a.is_hidden ? `${typeColor}99` : typeColor,
   }));
 
   return (
@@ -69,7 +74,7 @@ export function StatList({ pokemon }: StatListProps) {
         <StatItem icon={<Flame size={20} />} label="Type" value="" color={typeColor} chips={typeChips} />
         <StatItem icon={<Ruler size={20} />} label="Height" value={height} color={STAT_COLORS.height} isTextValue />
         <StatItem icon={<Weight size={20} />} label="Weight" value={weight} color={STAT_COLORS.weight} isTextValue />
-        <StatItem icon={<Sparkles size={20} />} label="Abilities" value="" color={STAT_COLORS.ability} chips={abilityChips} />
+        <StatItem icon={<Sparkles size={20} />} label="Abilities" value="" color={typeColor} chips={abilityChips} onChipClick={handleOpenAbilities} />
       </ul>
       <ul className={styles.column}>
         <StatItem icon={<Heart size={20} />} label="HP" value={hp} color={STAT_COLORS.hp} />
@@ -79,6 +84,12 @@ export function StatList({ pokemon }: StatListProps) {
         <StatItem icon={<ShieldPlus size={20} />} label="Sp. Def" value={spDef} color={STAT_COLORS.spDef} />
         <StatItem icon={<Wind size={20} />} label="Speed" value={speed} color={STAT_COLORS.speed} />
       </ul>
+      <AbilitiesModal
+        isOpen={showAbilities}
+        onClose={handleCloseAbilities}
+        abilities={pokemon.abilities}
+        typeColor={typeColor}
+      />
     </div>
   );
 }

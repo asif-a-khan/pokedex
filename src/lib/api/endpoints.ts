@@ -13,6 +13,12 @@ export const endpoints = {
   type: (name: string) =>
     `${POKEAPI_BASE}/type/${name}`,
 
+  ability: (name: string) =>
+    `${POKEAPI_BASE}/ability/${name}`,
+
+  move: (name: string) =>
+    `${POKEAPI_BASE}/move/${name}`,
+
   // grabs the full national dex in one request
   pokemonList: (limit: number = 1302) =>
     `${POKEAPI_BASE}/pokemon?limit=${limit}&offset=0`,

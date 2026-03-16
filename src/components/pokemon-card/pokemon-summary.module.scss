@@ -1,0 +1,71 @@
+@use '@/styles/abstracts' as *;
+
+.summary {
+  text-align: center;
+  max-width: 360px;
+  padding: 16px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.genus {
+  display: inline-block;
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba($color-text, 0.5);
+  margin-bottom: 8px;
+  padding: 4px 12px;
+  border: 1px solid rgba($color-text, 0.15);
+  border-radius: 20px;
+}
+
+.text {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba($color-text, 0.7);
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.traits {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.trait {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 14px;
+  border: 1px solid rgba($color-text, 0.12);
+  border-radius: 12px;
+  background: rgba($color-text, 0.03);
+}
+
+// legendary/mythical gets the type color border
+.traitHighlight {
+  border-width: 2px;
+  font-weight: 700;
+}
+
+.traitLabel {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba($color-text, 0.4);
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.traitValue {
+  font-size: 0.8rem;
+  color: rgba($color-text, 0.7);
+  text-transform: capitalize;
+  font-family: var(--font-heading);
+}

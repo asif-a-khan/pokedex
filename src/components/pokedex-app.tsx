@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useCallback } from 'react';
+import { Suspense, useCallback, useRef } from 'react';
 import { Preloader } from '@/components/preloader/preloader';
 import { SearchSection } from '@/components/search/search-section';
 import { PokemonCard } from '@/components/pokemon-card/pokemon-card';
@@ -8,6 +8,7 @@ import { EvolutionSection } from '@/components/evolution-chain/evolution-section
 import { FormsSection } from '@/components/alternate-forms/forms-section';
 import { RelatedSection } from '@/components/related-pokemon/related-section';
 import { ScrollToTop } from '@/components/ui/scroll-to-top';
+import { SectionNav } from '@/components/ui/section-nav';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import { useScrollToSection } from '@/hooks/use-scroll-to-section';
@@ -18,32 +19,71 @@ import { getTypeColor, getTypeColorVibrant } from '@/lib/constants/type-colors';
 export function PokedexApp() {
   const searchRef = useScrollToSection<HTMLElement>();
   const cardRef = useScrollToSection<HTMLElement>();
+  const evoRef = useRef<HTMLDivElement>(null);
+  const formsRef = useRef<HTMLDivElement>(null);
+  const relatedRef = useRef<HTMLDivElement>(null);
   const { name, setName } = useSelectedPokemon();
   const { data: pokemon } = usePokemon(name);
 
   const primaryType = pokemon?.types[0]?.type.name ?? 'normal';
-
-  // soft version for accents, vibrant for buttons that need to pop
   const typeColor = pokemon ? getTypeColor(primaryType) : undefined;
   const vibrantColor = pokemon ? getTypeColorVibrant(primaryType) : undefined;
+
+  const scrollTo = useCallback((ref: React.RefObject<HTMLDivElement | null>) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
 
   const handlePokemonSelect = useCallback(
     (pokemonName: string) => {
       setName(pokemonName);
-      requestAnimationFrame(() => {
+      setTimeout(() => {
         cardRef.scrollTo();
-      });
+      }, 300);
     },
     [setName, cardRef],
   );
 
   const handleSearchSelect = useCallback(() => {
-    cardRef.scrollTo();
+    setTimeout(() => {
+      cardRef.scrollTo();
+    }, 300);
   }, [cardRef]);
 
   const handleScrollToTop = useCallback(() => {
     searchRef.scrollTo();
   }, [searchRef]);
+
+  // nav buttons only render when a pokemon is loaded
+  const cardNav = pokemon ? (
+    <SectionNav
+      onPrev={handleScrollToTop}
+      onNext={() => scrollTo(evoRef)}
+      color={vibrantColor}
+    />
+  ) : null;
+
+  const evoNav = pokemon ? (
+    <SectionNav
+      onPrev={() => cardRef.scrollTo()}
+      onNext={() => scrollTo(formsRef)}
+      color={vibrantColor}
+    />
+  ) : null;
+
+  const formsNav = pokemon ? (
+    <SectionNav
+      onPrev={() => scrollTo(evoRef)}
+      onNext={() => scrollTo(relatedRef)}
+      color={vibrantColor}
+    />
+  ) : null;
+
+  const relatedNav = pokemon ? (
+    <SectionNav
+      onPrev={() => scrollTo(formsRef)}
+      color={vibrantColor}
+    />
+  ) : null;
 
   return (
     <main>
@@ -57,29 +97,36 @@ export function PokedexApp() {
       </div>
 
       <ErrorBoundary>
-        <PokemonCard ref={cardRef.ref} />
+        <PokemonCard ref={cardRef.ref} navContent={cardNav} />
       </ErrorBoundary>
 
-      <ErrorBoundary>
-        <Suspense fallback={<LoadingSkeleton variant="chain" />}>
-          <EvolutionSection onPokemonSelect={handlePokemonSelect} />
-        </Suspense>
-      </ErrorBoundary>
+      <div ref={evoRef}>
+        <ErrorBoundary>
+          <Suspense fallback={<LoadingSkeleton variant="chain" />}>
+            <EvolutionSection onPokemonSelect={handlePokemonSelect} navContent={evoNav} />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
 
-      <ErrorBoundary>
-        <Suspense fallback={<LoadingSkeleton variant="grid" />}>
-          <FormsSection onPokemonSelect={handlePokemonSelect} />
-        </Suspense>
-      </ErrorBoundary>
+      <div ref={formsRef}>
+        <ErrorBoundary>
+          <Suspense fallback={<LoadingSkeleton variant="grid" />}>
+            <FormsSection onPokemonSelect={handlePokemonSelect} navContent={formsNav} />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
 
-      <ErrorBoundary>
-        <Suspense fallback={<LoadingSkeleton variant="grid" />}>
-          <RelatedSection
-            onPokemonSelect={handlePokemonSelect}
-            onScrollToTop={handleScrollToTop}
-          />
-        </Suspense>
-      </ErrorBoundary>
+      <div ref={relatedRef}>
+        <ErrorBoundary>
+          <Suspense fallback={<LoadingSkeleton variant="grid" />}>
+            <RelatedSection
+              onPokemonSelect={handlePokemonSelect}
+              onScrollToTop={handleScrollToTop}
+              navContent={relatedNav}
+            />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
 
       <ScrollToTop onClick={handleScrollToTop} color={vibrantColor} />
 

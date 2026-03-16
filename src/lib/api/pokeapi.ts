@@ -6,6 +6,8 @@ import type {
   PokemonTypeResponse,
   NamedAPIResource,
   PokemonNameEntry,
+  AbilityDetail,
+  MoveDetail,
 } from '@/lib/types';
 
 // custom error so the UI can tell "not found" apart from "network died"
@@ -43,6 +45,14 @@ export function fetchEvolutionChain(id: number, signal?: AbortSignal): Promise<E
 
 export function fetchType(name: string, signal?: AbortSignal): Promise<PokemonTypeResponse> {
   return fetchJSON<PokemonTypeResponse>(endpoints.type(name.toLowerCase()), signal);
+}
+
+export function fetchAbility(name: string, signal?: AbortSignal): Promise<AbilityDetail> {
+  return fetchJSON<AbilityDetail>(endpoints.ability(name.toLowerCase()), signal);
+}
+
+export function fetchMove(name: string, signal?: AbortSignal): Promise<MoveDetail> {
+  return fetchJSON<MoveDetail>(endpoints.move(name.toLowerCase()), signal);
 }
 
 // fetches the lightweight name list for autocomplete

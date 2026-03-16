@@ -14,13 +14,14 @@ import styles from './evolution-section.module.scss';
 
 interface EvolutionSectionProps {
   onPokemonSelect: (name: string) => void;
+  navContent?: React.ReactNode;
 }
 
 export const EvolutionSection = forwardRef<HTMLElement, EvolutionSectionProps>(
-  function EvolutionSection({ onPokemonSelect }, ref) {
+  function EvolutionSection({ onPokemonSelect, navContent }, ref) {
     const { name } = useSelectedPokemon();
     const { data: pokemon } = usePokemon(name);
-    const { data: species } = usePokemonSpecies(name);
+    const { data: species } = usePokemonSpecies(pokemon?.species?.name ?? null);
     const { data: stages } = useEvolutionChain(species?.evolution_chain?.url ?? null);
 
     const handleSelect = useCallback(
@@ -58,6 +59,7 @@ export const EvolutionSection = forwardRef<HTMLElement, EvolutionSectionProps>(
             </div>
           </ScrollFade>
         </div>
+        {navContent}
       </section>
     );
   },

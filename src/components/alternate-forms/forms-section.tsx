@@ -14,13 +14,14 @@ import styles from './forms-section.module.scss';
 
 interface FormsSectionProps {
   onPokemonSelect: (name: string) => void;
+  navContent?: React.ReactNode;
 }
 
 export const FormsSection = forwardRef<HTMLElement, FormsSectionProps>(
-  function FormsSection({ onPokemonSelect }, ref) {
+  function FormsSection({ onPokemonSelect, navContent }, ref) {
     const { name } = useSelectedPokemon();
     const { data: pokemon } = usePokemon(name);
-    const { data: species } = usePokemonSpecies(name);
+    const { data: species } = usePokemonSpecies(pokemon?.species?.name ?? null);
     const { data: forms } = useAlternateForms(species?.varieties);
 
     const handleSelect = useCallback(
@@ -54,6 +55,7 @@ export const FormsSection = forwardRef<HTMLElement, FormsSectionProps>(
             </div>
           </ScrollFade>
         </div>
+        {navContent}
       </section>
     );
   },

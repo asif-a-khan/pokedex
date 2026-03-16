@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-03-16
+
+### Added
+
+- Pokemon summary section between sprite and stats — shows genus, flavor text, habitat, catch rate, growth rate, egg groups, and legendary/mythical status
+- Abilities modal — click any ability chip to see detailed descriptions (fetched from /ability endpoint)
+- Moves modal — click the pokemon sprite to browse all learnable moves with search, type-colored rows, power/accuracy/PP stats, and effect descriptions
+- Pokemon cries on hover — every sprite in every section plays the pokemon's cry sound via PokeAPI cries
+- Type-themed modals — header, borders, and accents match the pokemon's primary type. Individual moves are colored by their own move type
+- Section navigation buttons (up/down chevrons) at the bottom of each section for quick scrolling between sections
+- "Other [type] Pokemon" dynamic section title instead of generic "Related Pokemon"
+
+### Fixed
+
+- Mega/regional/gmax forms now correctly load species data (summary, evolution, forms) by using the base species name instead of the form name
+- Initial scroll on first pokemon selection no longer gets stuck on the collapsed empty section
+- Ability chips in stats now use the pokemon's type color instead of hardcoded purple
+- Normal type moves use a darker color so they're readable on white backgrounds
+- Section nav buttons are contained within their sections instead of creating whitespace between them
+
 ## [1.0.2] - 2026-03-16
 
 ### Added

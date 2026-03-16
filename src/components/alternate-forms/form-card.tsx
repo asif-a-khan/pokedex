@@ -4,6 +4,7 @@ import { memo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { PokemonSprite } from '@/components/ui/pokemon-sprite';
 import { formatPokemonName } from '@/lib/utils/format-pokemon-name';
+import { getCryUrl } from '@/lib/utils/get-cry-url';
 import type { Pokemon } from '@/lib/types';
 import styles from './form-card.module.scss';
 
@@ -29,7 +30,7 @@ export const FormCard = memo(function FormCard({ pokemon, onSelect, index }: For
       transition={{ duration: 0.3, delay: index * 0.1 }}
       aria-label={`View ${formatPokemonName(pokemon.name)}`}
     >
-      <PokemonSprite id={pokemon.id} name={pokemon.name} typeName={primaryType} size={150} />
+      <PokemonSprite id={pokemon.id} name={pokemon.name} typeName={primaryType} size={150} cryUrl={getCryUrl(pokemon.id)} />
       <span className={styles.name}>{formatPokemonName(pokemon.name)}</span>
     </motion.button>
   );

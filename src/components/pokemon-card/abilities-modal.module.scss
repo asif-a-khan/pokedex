@@ -1,0 +1,49 @@
+@use '@/styles/abstracts' as *;
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ability {
+  padding: 16px;
+  border-radius: 12px;
+  // left accent + tinted bg set via inline style from typeColor
+  border-left: 4px solid transparent;
+}
+
+.abilityHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.abilityName {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+.hiddenBadge {
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  color: $color-white;
+  font-family: var(--font-heading);
+  font-weight: 600;
+}
+
+.abilityDesc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba($color-text, 0.7);
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: rgba($color-text, 0.4);
+}
